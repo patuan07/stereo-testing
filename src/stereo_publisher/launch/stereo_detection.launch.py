@@ -7,7 +7,7 @@ def generate_launch_description():
     # --- Launch arguments ---
     model_path_arg = DeclareLaunchArgument(
         'model_path',
-        default_value='/home/tuanpham/ros_projects/stereo_depth/stereo_disparity/src/stereo_publisher/launch/best.pt',
+        default_value='/home/tuanpham/ros_projects/redo_stereo/Hornet-XI-Software/src/stereo_publisher/launch/best.pt',
         description='Path to your YOLOv8 .pt model file'
     )
     confidence_arg = DeclareLaunchArgument(

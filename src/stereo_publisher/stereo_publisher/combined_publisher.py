@@ -1,7 +1,7 @@
 import rclpy
 from rclpy.node import Node
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
-from sensor_msgs.msg import Image, CameraInfo
+from sensor_msgs.msg import Image, CameraInfo, CompressedImage
 from cv_bridge import CvBridge
 from ament_index_python.packages import get_package_share_directory
 import cv2 as cv
@@ -32,8 +32,8 @@ class StereoPublisher(Node):
         )
 
         # Publishers
-        self.pub_left_img  = self.create_publisher(Image, '/left/image_raw', qos)
-        self.pub_right_img = self.create_publisher(Image, '/right/image_raw', qos)
+        self.pub_left_img  = self.create_publisher(CompressedImage, '/left/image_raw/compressed', qos)
+        self.pub_right_img = self.create_publisher(CompressedImage, '/right/image_raw/compressed', qos)
         self.pub_left_info  = self.create_publisher(CameraInfo, '/left/camera_info', qos)
         self.pub_right_info = self.create_publisher(CameraInfo, '/right/camera_info', qos)
 
@@ -44,7 +44,7 @@ class StereoPublisher(Node):
 
         # Camera
         self.bridge = CvBridge()
-        self.cap = cv.VideoCapture("/home/tuanpham/ros_projects/stereo_depth/stereo_disparity/src/stereo_publisher/flares1.mkv", cv.CAP_FFMPEG)
+        self.cap = cv.VideoCapture("/home/tuanpham/ros_projects/redo_stereo/Hornet-XI-Software/src/stereo_publisher/flares1.mkv", cv.CAP_FFMPEG)
 
         if not self.cap.isOpened():
             raise RuntimeError("Cannot open video stream")
@@ -86,8 +86,8 @@ class StereoPublisher(Node):
         now = self.get_clock().now().to_msg() #set start time
 
         #Bridging cv2 frame to image message
-        msg_left  = self.bridge.cv2_to_imgmsg(left_img,  encoding='bgr8')
-        msg_right = self.bridge.cv2_to_imgmsg(right_img, encoding='bgr8')
+        msg_left  = self.bridge.cv2_to_compressed_imgmsg(left_img)
+        msg_right = self.bridge.cv2_to_compressed_imgmsg(right_img)
 
         #Set header settings for left and right camera image feed (for synchronization) 
         msg_left.header.stamp  = now

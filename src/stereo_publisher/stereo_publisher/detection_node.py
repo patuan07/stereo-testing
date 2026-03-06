@@ -8,7 +8,6 @@ import numpy as np
 import cv2
 #from stereo_interfaces.msg import DetectionWithImage, Detection
 
-
 class DetectionNode(Node):
     """
     Runs YOLOv8 inference on the rectified left image and publishes
@@ -20,7 +19,7 @@ class DetectionNode(Node):
 
         # --- Parameters ---
         # Update model_path to point to your trained .pt file
-        self.declare_parameter('model_path', 'best.pt')
+        self.declare_parameter('model_path', '/home/tuanpham/ros_projects/redo_stereo/Hornet-XI-Software/src/stereo_publisher/launch/best.pt')
         # Confidence threshold — detections below this are discarded
         self.declare_parameter('confidence_threshold', 0.5)
 
