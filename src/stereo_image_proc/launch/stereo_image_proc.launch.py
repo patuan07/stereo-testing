@@ -72,9 +72,9 @@ def generate_launch_description():
                 'full_dp': LaunchConfiguration('full_dp'),
             }],
             remappings=[
-                ('left/image_rect', [LaunchConfiguration('left_namespace'), '/image_rect']),
+                ('left/image_rect', 'left/image_rect_preprocessed'),
                 ('left/camera_info', [LaunchConfiguration('left_namespace'), '/camera_info']),
-                ('right/image_rect', [LaunchConfiguration('right_namespace'), '/image_rect']),
+                ('right/image_rect', 'right/image_rect_preprocessed'),
                 ('right/camera_info', [LaunchConfiguration('right_namespace'), '/camera_info']),
             ]
         ),
@@ -95,6 +95,11 @@ def generate_launch_description():
                     [LaunchConfiguration('left_namespace'), '/image_rect_color']
                 ),
             ]
+        ),
+        ComposableNode(
+            package='stereo_image_proc',
+            plugin='stereo_image_proc::RectPreprocessNode',
+            name='rect_preprocess_node',
         ),
     ]
 
