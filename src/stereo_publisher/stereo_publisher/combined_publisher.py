@@ -24,35 +24,35 @@ class StereoPublisher(Node):
     def __init__(self):
         super().__init__('stereo_combined_publisher')
 
-        #Set compatible quality of service with disparity node
+        #quality of service type shi
         qos = QoSProfile(
             reliability=QoSReliabilityPolicy.RELIABLE,
             history=QoSHistoryPolicy.KEEP_LAST,
             depth=10
         )
 
-        # Publishers
         self.pub_left_img  = self.create_publisher(CompressedImage, '/left/image_raw/compressed', qos)
         self.pub_right_img = self.create_publisher(CompressedImage, '/right/image_raw/compressed', qos)
         self.pub_left_info  = self.create_publisher(CameraInfo, '/left/camera_info', qos)
         self.pub_right_info = self.create_publisher(CameraInfo, '/right/camera_info', qos)
 
-        # Load calibration
         pkg_share = get_package_share_directory('stereo_publisher')
         self.left_info  = self.load_camera_info(os.path.join(pkg_share, 'left.yaml'))
         self.right_info = self.load_camera_info(os.path.join(pkg_share, 'right.yaml'))
 
-        # Camera
         self.bridge = CvBridge()
-        self.cap = cv.VideoCapture("/home/tuanpham/ros_projects/redo_stereo/Hornet-XI-Software/src/stereo_publisher/flares1.mkv", cv.CAP_FFMPEG)
+        self.cap = cv.VideoCapture("/dev/video2", cv.CAP_V4L2)
+        self.cap.set(cv.CAP_PROP_AUTO_EXPOSURE, 3)
+        self.cap.set(cv.CAP_PROP_FOURCC, cv.VideoWriter_fourcc(*'MJPG'))
+        self.cap.set(cv.CAP_PROP_FRAME_WIDTH, 1280)
+        self.cap.set(cv.CAP_PROP_FRAME_HEIGHT, 480)
+        self.cap.set(cv.CAP_PROP_FPS, 30)
 
         if not self.cap.isOpened():
             raise RuntimeError("Cannot open video stream")
 
-        # Publish timer (20 Hz)
         self.timer = self.create_timer(1/30, self.timer_cb)
 
-    #Loading camera info from camera intrinsic .yaml files
     def load_camera_info(self, path):
         if not os.path.exists(path):
             raise FileNotFoundError(f"YAML not found: {path}")
@@ -85,7 +85,6 @@ class StereoPublisher(Node):
 
         now = self.get_clock().now().to_msg() #set start time
 
-        #Bridging cv2 frame to image message
         msg_left  = self.bridge.cv2_to_compressed_imgmsg(left_img)
         msg_right = self.bridge.cv2_to_compressed_imgmsg(right_img)
 
