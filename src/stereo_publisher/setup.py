@@ -30,10 +30,9 @@ setup(
         'console_scripts': [
             'combined_publisher = stereo_publisher.combined_publisher:main',
             'get_point = stereo_publisher.get_point:main',
-            'test = stereo_publisher.test:main',
             'detection_node = stereo_publisher.detection_node:main',
             'depth_estimation_node = stereo_publisher.depth_estimation_node:main',
-            'getDepth = stereo_publisher.boxToDepth:main',
+            'image_converter = stereo_publisher.image_converter:main',
         ],
     },
 )

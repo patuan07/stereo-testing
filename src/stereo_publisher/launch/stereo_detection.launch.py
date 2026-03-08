@@ -58,5 +58,10 @@ def generate_launch_description():
             package='stereo_publisher',
             executable='combined_publisher',
             name='stereo_combined_publisher',
+        ),
+        Node(
+            package='stereo_publisher',
+            executable='image_converter',
+            name='image_converter',
         )
     ])
