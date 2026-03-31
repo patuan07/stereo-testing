@@ -49,7 +49,8 @@ def estimate_position_symmetry(filtered_points, bbox_center_uv, P_matrix):
     cx = P_matrix[0, 2]
     cy = P_matrix[1, 2]
 
-    z_estimate = np.median(filtered_points[:, 2]) * (2.5/1.9)
+    z_estimate = np.median(filtered_points[:, 2])
+    z_estimate = 0.61295191*((z_estimate)**2) - 0.1535741 * z_estimate + 0.6047538
     u_center, v_center = bbox_center_uv
 
     x_center = (u_center - cx) * z_estimate / fx

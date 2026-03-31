@@ -32,7 +32,6 @@ setup(
             'get_point = stereo_publisher.get_point:main',
             'detection_node = stereo_publisher.detection_node:main',
             'depth_estimation_node = stereo_publisher.depth_estimation_node:main',
-            'image_converter = stereo_publisher.image_converter:main',
         ],
     },
 )

@@ -7,7 +7,7 @@ def generate_launch_description():
     # --- Launch arguments ---
     model_path_arg = DeclareLaunchArgument(
         'model_path',
-        default_value='/home/tuanpham/ros_projects/redo_stereo/Hornet-XI-Software/src/stereo_publisher/launch/best.pt',
+        default_value='best.pt',
         description='Path to your YOLOv8 .pt model file'
     )
     confidence_arg = DeclareLaunchArgument(
@@ -59,9 +59,4 @@ def generate_launch_description():
             executable='combined_publisher',
             name='stereo_combined_publisher',
         ),
-        Node(
-            package='stereo_publisher',
-            executable='image_converter',
-            name='image_converter',
-        )
     ])

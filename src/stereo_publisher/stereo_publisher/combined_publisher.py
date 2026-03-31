@@ -41,9 +41,9 @@ class StereoPublisher(Node):
         self.right_info = self.load_camera_info(os.path.join(pkg_share, 'right.yaml'))
 
         self.bridge = CvBridge()
-        self.cap = cv.VideoCapture("/dev/video2", cv.CAP_V4L2)
-        self.cap.set(cv.CAP_PROP_AUTO_EXPOSURE, 3)
-        self.cap.set(cv.CAP_PROP_FOURCC, cv.VideoWriter_fourcc(*'MJPG'))
+        self.cap = cv.VideoCapture("[insert video feed]", cv.CAP_FFMPEG)
+        #self.cap.set(cv.CAP_PROP_AUTO_EXPOSURE, 3)
+        #self.cap.set(cv.CAP_PROP_FOURCC, cv.VideoWriter_fourcc(*'MJPG'))
         self.cap.set(cv.CAP_PROP_FRAME_WIDTH, 1280)
         self.cap.set(cv.CAP_PROP_FRAME_HEIGHT, 480)
         self.cap.set(cv.CAP_PROP_FPS, 30)
